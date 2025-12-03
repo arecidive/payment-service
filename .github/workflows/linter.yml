@@ -20,4 +20,4 @@ jobs:
 
       - name: Run Linter
         run: |
-          docker compose -f docker-compose.yml run --rm backend poetry run ruff check . --statistics
+          docker compose -f docker-compose.test.yml run --rm backend poetry run ruff check . --statistics
