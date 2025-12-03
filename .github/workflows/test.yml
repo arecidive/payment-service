@@ -1,0 +1,24 @@
+name: Tests
+
+on:
+  workflow_run:
+    workflows: ["Linter"]
+    types:
+      - completed
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run tests
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: |
+          docker compose -f docker-compose.test.yml run --rm backend pytest
